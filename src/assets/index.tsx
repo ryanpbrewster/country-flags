@@ -1,3 +1,5 @@
+import styled from "styled-components";
+import { CountryCode } from "../codes";
 import AD from "./ad.svg";
 import AE from "./ae.svg";
 import AF from "./af.svg";
@@ -249,7 +251,7 @@ import ZA from "./za.svg";
 import ZM from "./zm.svg";
 import ZW from "./zw.svg";
 
-const BY_COUNTRY_CODE: { [key: string]: string } = {
+const BY_COUNTRY_CODE = {
   AD,
   AE,
   AF,
@@ -503,9 +505,13 @@ const BY_COUNTRY_CODE: { [key: string]: string } = {
 };
 
 interface CountryFlagProps {
-  readonly code: string;
+  readonly code: CountryCode;
 }
 export const CountryFlag: React.FC<CountryFlagProps> = ({ code }) => {
-  code = code.toUpperCase();
-  return <img src={BY_COUNTRY_CODE[code]} alt={`${code} flag`} />;
+  return <FlagImg src={BY_COUNTRY_CODE[code]} alt={`${code} flag`} />;
 };
+
+const FlagImg = styled.img`
+  height: 300px;
+  border: 1px solid black;
+`;
