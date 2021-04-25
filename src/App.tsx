@@ -5,7 +5,7 @@ import { CountryFlag } from "./assets";
 const App: React.FC = () => {
   return (
     <AppWrapper>
-      <CountryFlag />
+      <CountryFlag code="us" />
       <p>Hello, World!</p>
     </AppWrapper>
   );
