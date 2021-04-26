@@ -46,7 +46,7 @@ const App: React.FC = () => {
       window.removeEventListener("keydown", keydown);
       window.removeEventListener("keyup", keyup);
     };
-  }, []);
+  }, [codes.length]);
   const code = codes[mod(idx, codes.length)];
   const info = (
     <>
