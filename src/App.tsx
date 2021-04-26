@@ -25,7 +25,7 @@ const App: React.FC = () => {
           setIdx((cur) => cur - 1);
           break;
         case " ":
-          setIdx(Math.floor(Math.random()*codes.length));
+          setIdx(Math.floor(Math.random() * codes.length));
           break;
       }
     });
