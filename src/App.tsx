@@ -10,7 +10,6 @@ const App: React.FC = () => {
   const [idx, setIdx] = useState<number>(0);
   useEffect(() => {
     return window.addEventListener("keydown", (evt) => {
-      console.log(evt.key);
       switch (evt.key) {
         case "ArrowUp":
           setMode((cur) => MODES[mod(MODES.indexOf(cur) - 1, MODES.length)]);
@@ -27,7 +26,6 @@ const App: React.FC = () => {
       }
     });
   }, []);
-  console.log(`${mode} -> ${codes.length}`);
   const code = codes[mod(idx, codes.length)];
   return (
     <AppWrapper>
