@@ -1,4 +1,6 @@
-export const COUNTRY_CODES = [
+import country_data from "./country_data.json";
+
+export const ALL_COUNTRY_CODES = [
   "AD",
   "AE",
   "AF",
@@ -251,4 +253,33 @@ export const COUNTRY_CODES = [
   "ZW",
 ] as const;
 
-export type CountryCode = typeof COUNTRY_CODES[number];
+export type CountryCode = typeof ALL_COUNTRY_CODES[number];
+
+export const MODES = ["all", "1mil", "10mil"] as const;
+export type Mode = typeof MODES[number];
+
+interface CountryData {
+  readonly name: string;
+  readonly population: number;
+  readonly area?: number;
+}
+export const COUNTRY_DATA: { [key: string]: CountryData } = country_data;
+export function getCodes(mode: Mode): readonly CountryCode[] {
+  switch (mode) {
+    case "all":
+      console.log(mode, ALL_COUNTRY_CODES.length);
+      return ALL_COUNTRY_CODES;
+    case "1mil":
+      const a = ALL_COUNTRY_CODES.filter(
+        (code) => COUNTRY_DATA[code]?.population ?? 0 > 1
+      );
+      console.log(mode, a.length);
+      return a;
+    case "10mil":
+      const b = ALL_COUNTRY_CODES.filter((code) => {
+        return (COUNTRY_DATA[code]?.population ?? 0) > 10;
+      });
+      console.log(mode, b.length);
+      return b;
+  }
+}
