@@ -9,8 +9,9 @@ const App: React.FC = () => {
   const [hidden, setHidden] = useState<boolean>(true);
   const codes = useMemo(() => getCountryCodes(mode), [mode]);
   const [idx, setIdx] = useState<number>(0);
+
   useEffect(() => {
-    return window.addEventListener("keydown", (evt) => {
+    const keydown = (evt: any) => {
       switch (evt.key) {
         case "ArrowUp":
           setMode((cur) => MODES[mod(MODES.indexOf(cur) - 1, MODES.length)]);
@@ -27,8 +28,24 @@ const App: React.FC = () => {
         case " ":
           setIdx(Math.floor(Math.random() * codes.length));
           break;
+        case "r":
+          setHidden(false);
+          break;
       }
-    });
+    };
+    const keyup = (evt: any) => {
+      switch (evt.key) {
+        case "r":
+          setHidden(true);
+          break;
+      }
+    };
+    document.addEventListener("keydown", keydown);
+    window.addEventListener("keyup", keyup);
+    return () => {
+      window.removeEventListener("keydown", keydown);
+      window.removeEventListener("keyup", keyup);
+    };
   }, []);
   const code = codes[mod(idx, codes.length)];
   const info = (
