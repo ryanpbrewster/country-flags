@@ -6,6 +6,7 @@ import { mod } from "./utils";
 
 const App: React.FC = () => {
   const [mode, setMode] = useState<Mode>("all");
+  const [hidden, setHidden] = useState<boolean>(true);
   const codes = useMemo(() => getCountryCodes(mode), [mode]);
   const [idx, setIdx] = useState<number>(0);
   useEffect(() => {
@@ -27,14 +28,19 @@ const App: React.FC = () => {
     });
   }, []);
   const code = codes[mod(idx, codes.length)];
-  return (
-    <AppWrapper>
-      <p>{mode}</p>
-      <CountryFlag code={code} />
+  const info =    
+      <>
       <p>{code}</p>
       <p>
         {COUNTRY_DATA[code]?.name} @ {COUNTRY_DATA[code]?.population}
       </p>
+      </>;
+  return (
+    <AppWrapper>
+      <p>{mode}</p>
+      <button onMouseDown={ () =>  setHidden(false) } onMouseUp={ () => setHidden(true) }>Reveal</button>
+      <CountryFlag code={code} />
+      {hidden===true ? null : info}
     </AppWrapper>
   );
 };
