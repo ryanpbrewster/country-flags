@@ -24,6 +24,9 @@ const App: React.FC = () => {
         case "ArrowLeft":
           setIdx((cur) => cur - 1);
           break;
+        case " ":
+          setIdx(Math.floor(Math.random() * codes.length));
+          break;
       }
     });
   }, []);
