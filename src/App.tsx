@@ -28,19 +28,25 @@ const App: React.FC = () => {
     });
   }, []);
   const code = codes[mod(idx, codes.length)];
-  const info =    
-      <>
+  const info = (
+    <>
       <p>{code}</p>
       <p>
         {COUNTRY_DATA[code]?.name} @ {COUNTRY_DATA[code]?.population}
       </p>
-      </>;
+    </>
+  );
   return (
     <AppWrapper>
       <p>{mode}</p>
-      <button onMouseDown={ () =>  setHidden(false) } onMouseUp={ () => setHidden(true) }>Reveal</button>
+      <button
+        onMouseDown={() => setHidden(false)}
+        onMouseUp={() => setHidden(true)}
+      >
+        Reveal
+      </button>
       <CountryFlag code={code} />
-      {hidden===true ? null : info}
+      {hidden === true ? null : info}
     </AppWrapper>
   );
 };
