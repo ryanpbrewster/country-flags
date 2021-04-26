@@ -264,22 +264,17 @@ interface CountryData {
   readonly area?: number;
 }
 export const COUNTRY_DATA: { [key: string]: CountryData } = country_data;
-export function getCodes(mode: Mode): readonly CountryCode[] {
+export function getCountryCodes(mode: Mode): readonly CountryCode[] {
   switch (mode) {
     case "all":
-      console.log(mode, ALL_COUNTRY_CODES.length);
       return ALL_COUNTRY_CODES;
     case "1mil":
-      const a = ALL_COUNTRY_CODES.filter(
-        (code) => COUNTRY_DATA[code]?.population ?? 0 > 1
+      return ALL_COUNTRY_CODES.filter(
+        (code) => (COUNTRY_DATA[code]?.population ?? 0) > 1
       );
-      console.log(mode, a.length);
-      return a;
     case "10mil":
-      const b = ALL_COUNTRY_CODES.filter((code) => {
-        return (COUNTRY_DATA[code]?.population ?? 0) > 10;
-      });
-      console.log(mode, b.length);
-      return b;
+      return ALL_COUNTRY_CODES.filter(
+        (code) => (COUNTRY_DATA[code]?.population ?? 0) > 10
+      );
   }
 }

@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { CountryFlag } from "./assets";
-import { COUNTRY_DATA, getCodes, Mode, MODES } from "./codes";
+import { COUNTRY_DATA, getCountryCodes, Mode, MODES } from "./codes";
 import { mod } from "./utils";
 
 const App: React.FC = () => {
   const [mode, setMode] = useState<Mode>("all");
-  const codes = useMemo(() => getCodes(mode), [mode]);
+  const codes = useMemo(() => getCountryCodes(mode), [mode]);
   const [idx, setIdx] = useState<number>(0);
   useEffect(() => {
     return window.addEventListener("keydown", (evt) => {
