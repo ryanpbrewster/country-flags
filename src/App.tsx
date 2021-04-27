@@ -40,7 +40,7 @@ const App: React.FC = () => {
           break;
       }
     };
-    document.addEventListener("keydown", keydown);
+    window.addEventListener("keydown", keydown);
     window.addEventListener("keyup", keyup);
     return () => {
       window.removeEventListener("keydown", keydown);
