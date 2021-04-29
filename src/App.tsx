@@ -1,24 +1,22 @@
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { CountryFlag } from "./assets";
-import { COUNTRY_DATA, getCountryCodes, Mode, MODES } from "./codes";
+import { COUNTRY_DATA, getCountryCodes } from "./codes";
 import { mod } from "./utils";
 
 const App: React.FC = () => {
-  const [mode, setMode] = useState<Mode>("all");
+  const [areaLimit, setAreaLimit] = useState<number>(0);
+  const [populationLimit, setPopulationLimit] = useState<number>(0);
   const [hidden, setHidden] = useState<boolean>(true);
-  const codes = useMemo(() => getCountryCodes(mode), [mode]);
+  const codes = useMemo(() => getCountryCodes({ areaLimit, populationLimit }), [
+    areaLimit,
+    populationLimit,
+  ]);
   const [idx, setIdx] = useState<number>(0);
 
   useEffect(() => {
     const keydown = (evt: any) => {
       switch (evt.key) {
-        case "ArrowUp":
-          setMode((cur) => MODES[mod(MODES.indexOf(cur) - 1, MODES.length)]);
-          break;
-        case "ArrowDown":
-          setMode((cur) => MODES[mod(MODES.indexOf(cur) + 1, MODES.length)]);
-          break;
         case "ArrowRight":
           setIdx((cur) => cur + 1);
           break;
@@ -52,13 +50,27 @@ const App: React.FC = () => {
     <>
       <p>{code}</p>
       <p>
-        {COUNTRY_DATA[code]?.name} @ {COUNTRY_DATA[code]?.population}
+        {COUNTRY_DATA[code]?.name}: {COUNTRY_DATA[code]?.population} million
+        people
       </p>
+      <p>{COUNTRY_DATA[code]?.area} thousand square kilometers</p>
     </>
   );
   return (
     <AppWrapper>
-      <p>{mode}</p>
+      <AppHeader>
+        Filters:
+        <input
+          value={areaLimit || undefined}
+          onChange={(evt) => setAreaLimit(Number(evt.target.value))}
+          placeholder="Area [thousand km^2]"
+        />
+        <input
+          value={populationLimit || undefined}
+          onChange={(evt) => setPopulationLimit(Number(evt.target.value))}
+          placeholder="Population [millions]"
+        />
+      </AppHeader>
       <button
         onMouseDown={() => setHidden(false)}
         onMouseUp={() => setHidden(true)}
@@ -76,6 +88,12 @@ const AppWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 24px;
+`;
+
+const AppHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: 8px;
 `;
 
 export default App;

@@ -255,26 +255,26 @@ export const ALL_COUNTRY_CODES = [
 
 export type CountryCode = typeof ALL_COUNTRY_CODES[number];
 
-export const MODES = ["all", "1mil", "10mil"] as const;
-export type Mode = typeof MODES[number];
-
 interface CountryData {
   readonly name: string;
   readonly population: number;
   readonly area?: number;
 }
 export const COUNTRY_DATA: { [key: string]: CountryData } = country_data;
-export function getCountryCodes(mode: Mode): readonly CountryCode[] {
-  switch (mode) {
-    case "all":
-      return ALL_COUNTRY_CODES;
-    case "1mil":
-      return ALL_COUNTRY_CODES.filter(
-        (code) => (COUNTRY_DATA[code]?.population ?? 0) > 1
-      );
-    case "10mil":
-      return ALL_COUNTRY_CODES.filter(
-        (code) => (COUNTRY_DATA[code]?.population ?? 0) > 10
-      );
-  }
+
+interface Filters {
+  readonly areaLimit: number;
+  readonly populationLimit: number;
+}
+export function getCountryCodes({
+  areaLimit,
+  populationLimit,
+}: Filters): readonly CountryCode[] {
+  return ALL_COUNTRY_CODES.filter((code) => {
+    const data = COUNTRY_DATA[code];
+    return (
+      (data?.area ?? 0) >= areaLimit &&
+      (data?.population ?? 0) >= populationLimit
+    );
+  });
 }
