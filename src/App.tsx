@@ -46,16 +46,6 @@ const App: React.FC = () => {
     };
   }, [codes.length]);
   const code = codes[mod(idx, codes.length)];
-  const info = (
-    <>
-      <p>{code}</p>
-      <p>
-        {COUNTRY_DATA[code]?.name}: {COUNTRY_DATA[code]?.population} million
-        people
-      </p>
-      <p>{COUNTRY_DATA[code]?.area} thousand square kilometers</p>
-    </>
-  );
   return (
     <AppWrapper>
       <AppHeader>
@@ -78,7 +68,14 @@ const App: React.FC = () => {
         Reveal
       </button>
       <CountryFlag code={code} />
-      {hidden === true ? null : info}
+      <CountryInfo hide={hidden}>
+        <p>{code}</p>
+        <p>
+          {COUNTRY_DATA[code]?.name}: {COUNTRY_DATA[code]?.population} million
+          people
+        </p>
+        <p>{COUNTRY_DATA[code]?.area} thousand square kilometers</p>
+      </CountryInfo>
     </AppWrapper>
   );
 };
@@ -94,6 +91,11 @@ const AppHeader = styled.div`
   display: flex;
   flex-direction: row;
   margin: 8px;
+`;
+
+const CountryInfo = styled.div<{ hide: boolean }>`
+  opacity: ${({ hide }) => (hide ? 0 : 1)};
+  transition: all 2s ease-out;
 `;
 
 export default App;
